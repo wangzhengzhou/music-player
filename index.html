@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="play-box clear-fix">
+        <div class="title">
+            <div class="control">
+                <a href="#" class="icon-previous"></a>
+                <a href="#" class="icon-play"></a>
+                <a href="#" class="icon-next"></a>
+            </div>
+            <div class="information">
+                <h3>歌曲名</h3>
+                <p>歌手名</p>
+            </div>
+        </div>
+        <div class="progress">
+            <a href="#" class="total"></a>
+            <a href="#" class="status"></a>
+            <span>0.00</span>
+        </div>
+    </div>
+    <div class="cotalog-box">
+        <p>十分十二寸</p>
+        <p>笑看风云</p>
+        <p></p>
+        <p></p>
+        <p></p>
+    </div>
+    <script>
+        function getMusicList(callback) {
+            var xhr = new XMLHttpRequest();
+            xhr.open('GET', '//jirenguapi.applinzi.com/fm/getChannels.php', true);
+            xhr.send();
+            xhr.onload = function() {
+                if ((xhr.status >= 200 && xhr.status < 300) || xhr === 304) {
+                    callback(JSON.parse(this.responseText))
+                } else {
+                    console.log('获取数据失败')
+                }
+            }
+            xhr.onerror = function() {
+                console.log('网络异常')
+            }
+        }
+    </script>
+</body>
+
+</html>

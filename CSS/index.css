@@ -1,0 +1,101 @@
+@import"//at.alicdn.com/t/font_1011049_jtb7ndxenlm.css";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+a{
+    text-decoration: none;
+    color: rgb(236, 152, 166);
+}
+.clear-fix::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+body {
+    background: url(https://image.zjstv.com/20181221b6adcc3cfae1a64eb4100993a80fa589_origin.jpg) no-repeat;
+    background-size: cover;
+    font-family: 楷体;
+}
+
+.play-box {
+    width: 300px;
+    height: 120px;
+    position: absolute;
+    left: 50%;
+    top: 45%;
+    border: 1px solid #f1f1f1;
+    transform: translate(-50%, -50%);
+    background: #f1f1f1;
+}
+
+.title {
+    margin: 20px 10px 10px;
+}
+
+.information {
+    margin-left: 60px;
+    text-align: center;
+}
+
+.title {
+    color: rgb(236, 152, 166);
+}
+
+.control {
+    font-family: "iconfont";
+    float: left;
+    margin: 30px 10px 2px;
+}
+
+.total {
+    background-color: #d1d1d1;
+    width: 260px;
+    height: 3px;
+    z-index: -1;
+}
+
+.status {
+    background-color: rgb(236, 152, 166);
+    height: 3px;
+    width: 30px;
+}
+
+.total,
+.status {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+}
+
+.progress {
+    position: relative;
+}
+
+.progress>span {
+    position: absolute;
+    right: 10px;
+    top: 20px;
+    color: rgb(236, 152, 166);
+}
+
+.cotalog-box {
+    position: absolute;
+    top: calc(45% + 120px);
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.cotalog-box>p {
+    border: 1px solid #d1d1d1;
+    border-top: none;
+    width: 300px;
+    height: 25px;
+    color: rgb(236, 152, 166);
+    font-size: 14px;
+    font-weight: bold;
+    padding:5px 15px;
+}
