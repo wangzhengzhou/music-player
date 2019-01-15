@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet" href="css/index.css">
 </head>
 
 <body>
@@ -13,12 +14,12 @@
         <div class="title">
             <div class="control">
                 <a href="#" class="icon-previous"></a>
-                <a href="#" class="icon-play"></a>
+                <a href="#" class="fa icon-play"></a>
                 <a href="#" class="icon-next"></a>
             </div>
             <div class="information">
-                <h3>歌曲名</h3>
-                <p>歌手名</p>
+                <h3></h3>
+                <p></p>
             </div>
         </div>
         <div class="progress">
@@ -26,18 +27,141 @@
             <a href="#" class="status"></a>
             <span>0.00</span>
         </div>
-    </div>
-    <div class="cotalog-box">
-        <p>十分十二寸</p>
-        <p>笑看风云</p>
-        <p></p>
-        <p></p>
-        <p></p>
+        <div class="cotalog-box">
+        </div>
     </div>
     <script>
+        var musicList = []
+        var currentIndex = 0
+        var audio = new Audio()
+        audio.autoplay = true
+        getMusicList(function(list) {
+            musicList = list;
+            loadMusic(list[currentIndex])
+            musicList.forEach(function(node) {
+                var newA = document.createElement('a')
+                newA.innerText = node.title
+                newA.href = '#'
+                $('.cotalog-box').appendChild(newA)
+            })
+            //$('.cotalog-box a').style.borderLeft = '8px white  solid'
+        })
+
+        function $(selector) {
+            return document.querySelector(selector)
+        }
+
+        function $$(selector) {
+            return document.querySelectorAll(selector)
+        }
+        audio.ontimeupdate = function() {
+            $('.status').style.width = (this.currentTime / this.duration) * parseInt(getComputedStyle($('.total')).width) + 'px';
+            var min = Math.floor(this.currentTime / 60)
+            var sec = Math.floor(this.currentTime % 60) + ''
+            sec = sec.length === 2 ? sec : '0' + sec
+            $('.progress span').innerText = min + ':' + sec;
+        }
+        $('.icon-play').onclick = function() {
+            if (audio.paused) {
+                audio.play();
+                $('.fa').classList.remove('icon-pause');
+                $('.fa').classList.add('icon-play');
+            } else {
+                audio.pause();
+                $('.fa').classList.remove('icon-play');
+                $('.fa').classList.add('icon-pause');
+            }
+
+        }
+        $('.icon-previous').onclick = function(e) {
+            currentIndex = (musicList.length + (--currentIndex)) % musicList.length
+            loadMusic(musicList[currentIndex])
+            $$('.cotalog-box a').forEach(function(node) {
+                node.style.borderLeft = '1px solid #d1d1d1'
+            })
+            $$('.cotalog-box a').forEach(function(node) {
+                if (node.innerText === musicList[currentIndex].title) {
+                    node.style.borderLeft = '8px white  solid'
+                }
+            })
+            if (audio.paused) {
+                audio.play();
+                $('.fa').classList.remove('icon-pause');
+                $('.fa').classList.add('icon-play');
+            } else {
+                audio.pause();
+                $('.fa').classList.remove('icon-play');
+                $('.fa').classList.add('icon-pause');
+            }
+        }
+
+        $('.icon-next').onclick = function() {
+            currentIndex = (++currentIndex) % musicList.length
+            loadMusic(musicList[currentIndex])
+            $$('.cotalog-box a').forEach(function(node) {
+                node.style.borderLeft = '1px solid #d1d1d1'
+            })
+            $$('.cotalog-box a').forEach(function(node) {
+                if (node.innerText === musicList[currentIndex].title) {
+                    node.style.borderLeft = '8px white  solid'
+                }
+            })
+            if (audio.paused) {
+                audio.play();
+                $('.fa').classList.remove('icon-pause');
+                $('.fa').classList.add('icon-play');
+            } else {
+                audio.pause();
+                $('.fa').classList.remove('icon-play');
+                $('.fa').classList.add('icon-pause');
+            }
+        }
+
+        $('.progress').onclick = function(e) {
+            var percent = e.offsetX / parseInt(getComputedStyle($('.total')).width)
+            audio.currentTime = audio.duration * percent
+        }
+        audio.onended = function() {
+            currentIndex = (++currentIndex) % musicList.length
+            loadMusic(musicList[currentIndex])
+            $$('.cotalog-box a').forEach(function(node) {
+                node.style.borderLeft = '1px solid #d1d1d1'
+            })
+            $$('.cotalog-box a').forEach(function(node) {
+                if (node.innerText === musicList[currentIndex].title) {
+                    node.style.borderLeft = '8px white  solid'
+                }
+            })
+        }
+        $('.cotalog-box').addEventListener('click', function(e) {
+            $$('.cotalog-box a').forEach(function(node) {
+                node.style.borderLeft = '1px solid #d1d1d1'
+            })
+            for (var currentIndex = 0; currentIndex < musicList.length; currentIndex++) {
+                if (e.target.innerText !== musicList[currentIndex].title) continue;
+                loadMusic(musicList[currentIndex])
+                e.target.style.borderLeft = '8px white  solid'
+                if (audio.paused) {
+                    audio.play();
+                    $('.fa').classList.remove('icon-pause');
+                    $('.fa').classList.add('icon-play');
+                } else {
+                    audio.pause();
+                    $('.fa').classList.remove('icon-play');
+                    $('.fa').classList.add('icon-pause');
+                }
+            }
+        })
+        $('.cotalog-box').addEventListener('mouseover', function(e) {
+            e.target.classList.add('color')
+        })
+        $('.cotalog-box').addEventListener('mouseout', function(e) {
+            e.target.classList.remove('color')
+        })
+
         function getMusicList(callback) {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', '//jirenguapi.applinzi.com/fm/getChannels.php', true);
+            xhr.open('GET', '/music.JSON', true);
             xhr.send();
             xhr.onload = function() {
                 if ((xhr.status >= 200 && xhr.status < 300) || xhr === 304) {
@@ -49,6 +173,13 @@
             xhr.onerror = function() {
                 console.log('网络异常')
             }
+        }
+
+        function loadMusic(musicObj) {
+            $('.information>h3').innerText = musicObj.title;
+            $('.information>p').innerText = musicObj.author;
+            audio.src = musicObj.src;
+            $('body').style.backgroundImage = 'url(' + musicObj.img + ')'
         }
     </script>
 </body>
