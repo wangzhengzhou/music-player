@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="CSS/index.css">
 </head>
 
 <body>
@@ -162,7 +162,7 @@
 
         function getMusicList(callback) {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', '/music.json', true);
+            xhr.open('GET', '/music.JSON', true);
             xhr.send();
             xhr.onload = function() {
                 if ((xhr.status >= 200 && xhr.status < 300) || xhr === 304) {
