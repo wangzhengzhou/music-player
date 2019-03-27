@@ -31,6 +31,7 @@
         </div>
     </div>
     <script>
+        console.log('12')
         var musicList = []
         var currentIndex = 0
         var audio = new Audio()
@@ -161,7 +162,7 @@
 
         function getMusicList(callback) {
             var xhr = new XMLHttpRequest();
-            xhr.open('GET', 'https://wangzhengzhou.github.io/musicPlayer/music.json', true);
+            xhr.open('GET', '/music.json', true);
             xhr.send();
             xhr.onload = function() {
                 if ((xhr.status >= 200 && xhr.status < 300) || xhr === 304) {

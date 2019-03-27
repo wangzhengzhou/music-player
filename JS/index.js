@@ -5,11 +5,12 @@ var path = require('path');
 var url = require('url')
 
 function sampleRoot(musicPlayerPath,req,res){
-	console.log(musicPlayerPath)
+	//console.log(musicPlayerPath)
+	console.log(req.url)
 	var pathObj = url.parse(req.url,true)
-	console.log(pathObj.pathname)
+	//console.log(req.url)
 	var filePath = path.join(musicPlayerPath,pathObj.pathname)
-	console.log(filePath)
+	//onsole.log(filePath)
 		fs.readFile(filePath,function(err,data){	
 			  if(err){
 				  res.setHeader('content-Type','text/plain;charset=utf-8')
